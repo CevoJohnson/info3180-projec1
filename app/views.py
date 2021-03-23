@@ -41,13 +41,13 @@ def property():
             bathrooms = myform.bathrooms.data
             location = myform.location.data
             price = myform.price.data
-            test = myform.test.data
+            prop_type = myform.prop_type.data
             description = myform.description.data
             image = myform.imageFile.data
 
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            property = UserProperty(title, bedrooms, bathrooms, location, price, test, description, filename)
+            property = UserProperty(title, bedrooms, bathrooms, location, price, prop_type, description, filename)
             db.session.add(property)
             db.session.commit()
 
@@ -60,6 +60,12 @@ def property():
 def properties():
     properties = UserProperty.query.all()
     return render_template('properties.html', properties=properties)
+
+
+@app.route('/property/<propertyid>')
+def propertyById(propertyid):
+    properties = db.session.query(UserProperty).filter(UserProperty.id == propertyid).first()
+    return render_template('propertyById.html', properties=properties)
 
 
 @app.route('/uploads/<filename>')

@@ -1,28 +1,24 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div>
-    <h1>Properties</h1>
-</div>
-<div id="properties-grid-container">
+<h1>Properties</h1>
+<div class = 'row row-cols-3 row-cols-md-4'>
     {% for property in properties %}
-        <div id="properties-grid-item" class="tester">
-            <div>
-                <img id="properties-img" src="{{ url_for('get_image', filename=property.photo) }}" />
-            </div>
-            <div id="properties-div">
-                <div class="properties-div-child">
-                    <h3>{{ property.title }}</h3>
+    <div class = "col-md-4 mb-3">
+        <div class ="card h-100">
+            <img class = "card-img-top" src="{{ url_for('get_image', filename=property.photo) }}" alt="Card image cap">
+                <div class = "card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class ="card-subtitle mb-3 text-muted"><img class ="image mr-1" src="{{ url_for('static', filename='img/location.png') }}">{{ property.description }}</p>
+                    <p class="card-subtitle mb-3 badge badge-pill badge-primary p-2 mb-0">${{ property.price }}</p>
                 </div>
-                <div class="properties-div-child">
-                    <span><img id="properties-icons" src="/static/img/location.png" alt="location: ">{{ property.location }}</span>
-                </div>
-                <div class="properties-div-child" id="properties-price-div">
-                    <p id="properties-price">${{ property.price }}</p>
-                </div>
-            </div>
-
+                <a href="{{ url_for('propertyById', propertyid=property.id) }}">
+                    <div class = "card-footer bg-primary_ test text-center">
+                        View Property
+                    </div>
+                </a>
         </div>
+    </div>
     {% endfor %}
-</div>
+</div> 
 {% endblock %}
